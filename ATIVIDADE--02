@@ -1,0 +1,291 @@
+1. (1013) The Greatest
+
+<?php
+    $valores = explode(" ", fgets(STDIN));
+
+    $maiorAB = ($valores[0] + $valores[1] + abs($valores[0] - $valores[1])) / 2;
+    $maior = ($maiorAB + $valores[2] + abs($maiorAB - $valores[2])) / 2;
+
+    echo "$maior eh o maior\n";
+?>
+
+2. (1018) Banknotes
+
+<?php
+$note_list = array(100, 50, 20, 10, 5, 2, 1);
+
+$money = readline();
+
+echo $money . "\n";
+
+for ($i = 0; $i < 7; $i++) {
+    $count =  $money / $note_list[$i];
+
+    echo (int) $count . " nota(s) de R$ " . $note_list[$i] . ",00\n";
+
+    $money %= $note_list[$i];
+}
+?>
+
+3. (1133) Rest of a Division
+
+<?php
+
+// Lê os dois números inteiros
+fscanf(STDIN, "%d", $x);
+fscanf(STDIN, "%d", $y);
+
+$min = min($x, $y);
+$max = max($x, $y);
+
+for ($i = $min + 1; $i < $max; $i++) {
+    if ($i % 5 == 2 || $i % 5 == 3) {
+        echo $i . PHP_EOL;
+    }
+}
+
+4. (1101) Sequence of Numbers and Sum
+
+<?php
+
+while (true) {
+    fscanf(STDIN, "%d %d", $m, $n);
+
+    if ($m <= 0 || $n <= 0) {
+        break;
+    }
+
+    // Inicializa a soma
+    $sum = 0;
+
+    $start = min($m, $n);
+    $end = max($m, $n);
+
+    for ($i = $start; $i <= $end; $i++) {
+        echo $i . " ";
+        $sum += $i;
+    }
+
+    echo "Sum=" . $sum . PHP_EOL;
+}
+
+5. (1789) The Race of Slugs
+
+<?php
+
+while (($n = fgets(STDIN)) !== false) {
+    $velocities = explode(" ", fgets(STDIN));
+    $max_velocity = max($velocities);
+
+    if ($max_velocity < 10) {
+        echo "1\n";
+    } elseif ($max_velocity >= 10 && $max_velocity < 20) {
+        echo "2\n";
+    } else {
+        echo "3\n";
+    }
+}
+
+6. (1071) Sum of Consecutive Odd Numbers I
+
+<?php
+
+fscanf(STDIN, "%d", $x);
+fscanf(STDIN, "%d", $y);
+
+$start = min($x, $y) + 1;
+$end = max($x, $y);
+
+$sum = 0;
+
+for ($i = $start; $i < $end; $i++) {
+    // Verifica se o número é ímpar
+    if ($i % 2 != 0) {
+        // Soma o número ímpar
+        $sum += $i;
+    }
+}
+
+// Imprime a soma
+echo $sum . "\n";
+
+7. (1103) Alarm Clock
+
+<?php
+
+while (true) {
+    fscanf(STDIN, "%d %d %d %d", $h1, $m1, $h2, $m2);
+
+    if ($h1 == 0 && $m1 == 0 && $h2 == 0 && $m2 == 0) {
+        break;
+    }
+
+    $total_m1 = $h1 * 60 + $m1;
+    $total_m2 = $h2 * 60 + $m2;
+
+    $difference = $total_m2 - $total_m1;
+
+    if ($difference < 0) {
+        $difference += 24 * 60;
+    }
+
+    // Imprime a diferença em minutos
+    echo $difference . "\n";
+}
+
+8. (1024) Encryption
+
+<?php
+
+function encrypt($string) {
+    $encrypted = '';
+    $length = strlen($string);
+
+    for ($i = 0; $i < $length; $i++) {
+        $char = $string[$i];
+        if (ctype_alpha($char)) {
+            $encrypted .= chr(ord($char) + 3);
+        } else {
+            $encrypted .= $char;
+        }
+    }
+
+    $encrypted = strrev($encrypted);
+
+    $half_length = (int) ($length / 2);
+    for ($i = $half_length; $i < $length; $i++) {
+        $char = $encrypted[$i];
+        $encrypted[$i] = chr(ord($char) - 1);
+    }
+
+    return $encrypted;
+}
+
+$num_cases = intval(fgets(STDIN));
+
+for ($i = 0; $i < $num_cases; $i++) {
+    $input = trim(fgets(STDIN));
+
+    echo encrypt($input) . PHP_EOL;
+}
+
+9. (1168) LED
+
+<?php
+
+function countLEDs($number) {
+    $leds = [6, 2, 5, 5, 4, 5, 6, 3, 7, 6]; 
+    $totalLEDs = 0;
+
+    $numberString = strval($number);
+
+    foreach ($numberString as $digit) {
+        $totalLEDs += $leds[(int)$digit]; 
+    }
+
+    return $totalLEDs;
+}
+
+$num_cases = intval(fgets(STDIN));
+
+for ($i = 0; $i < $num_cases; $i++) {
+    $number = intval(fgets(STDIN));
+
+    echo countLEDs($number) . " leds" . PHP_EOL;
+}
+
+10. (1253) Caesar Cipher
+
+<?php
+
+function decifrarCifraDeCesar($mensagem, $deslocamento) {
+    $decifrado = '';
+    $tamanho = strlen($mensagem);
+
+    for ($i = 0; $i < $tamanho; $i++) {
+        $char = $mensagem[$i];
+
+        if (ctype_alpha($char)) {
+            $is_upper = ctype_upper($char);
+
+            $novo_codigo = ord($char) - $deslocamento;
+            if (($is_upper && $novo_codigo < ord('A')) || (!$is_upper && $novo_codigo < ord('a'))) {
+                $novo_codigo += 26; // Volta ao final do alfabeto
+            }
+
+            $decifrado .= chr($novo_codigo);
+        } else {
+            $decifrado .= $char;
+        }
+    }
+
+    return $decifrado;
+}
+
+$num_casos = intval(fgets(STDIN));
+
+for ($i = 0; $i < $num_casos; $i++) {
+    $mensagem = trim(fgets(STDIN));
+    $deslocamento = intval(fgets(STDIN));
+
+    echo decifrarCifraDeCesar($mensagem, $deslocamento) . PHP_EOL;
+}
+
+11. (1259) Even and Odd
+
+<?php
+
+function sortByParity($a, $b) {
+    if ($a % 2 == $b % 2) {
+        return $a > $b ? 1 : -1;
+    }
+    return $a % 2 == 0 ? -1 : 1;
+}
+
+$num_cases = intval(fgets(STDIN));
+
+$even = array();
+$odd = array();
+
+for ($i = 0; $i < $num_cases; $i++) {
+    $number = intval(fgets(STDIN));
+    if ($number % 2 == 0) {
+        $even[] = $number;
+    } else {
+        $odd[] = $number;
+    }
+}
+
+usort($even, 'sortByParity');
+usort($odd, 'sortByParity');
+
+foreach ($even as $num) {
+    echo $num . "\n";
+}
+
+for ($i = count($odd) - 1; $i >= 0; $i--) {
+    echo $odd[$i] . "\n";
+}
+
+12. (1028) Collectable Cards
+
+<?php
+
+function gcd($a, $b) {
+    while ($b != 0) {
+        $t = $b;
+        $b = $a % $b;
+        $a = $t;
+    }
+    return $a;
+}
+
+$num_cases = intval(fgets(STDIN));
+
+for ($i = 0; $i < $num_cases; $i++) {
+    fscanf(STDIN, "%d %d", $cards_father, $cards_son);
+
+    $gcd = gcd($cards_father, $cards_son);
+
+    echo $gcd . PHP_EOL;
+}
